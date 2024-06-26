@@ -1,0 +1,25 @@
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    image: bitnami/nginx:1.25.3
+    ports:
+      - "80:8080"
+      - "443:8443"
+    volumes:
+      - /opt/services/conf/nginx.conf:/opt/bitnami/nginx/conf/nginx.conf
+      - /opt/services/certs:/certs
+    restart: unless-stopped
+    networks:
+      - services_net
+
+  mobsf:
+    container_name: mobsf
+    image: opensecurity/mobile-security-framework-mobsf:latest
+    restart: unless-stopped
+    networks:
+      - services_net
+
+networks:
+  services_net:
+    driver: bridge
